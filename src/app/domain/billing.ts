@@ -1,14 +1,27 @@
 import type { BillingCycle } from './types';
 
-export function toMonthlyCost(_sub: { amount: number; cycle: BillingCycle }): number {
-  if (_sub.amount === 0) return 0;
+export function toMonthlyCost(sub: { amount: number; cycle: BillingCycle }): number {
+  if (sub.amount === 0) return 0;
 
-  switch (_sub.cycle) {
+  switch (sub.cycle) {
     case 'weekly':
-      return (_sub.amount * 52) / 12;
+      return (sub.amount * 52) / 12;
     case 'monthly':
-      return _sub.amount;
+      return sub.amount;
     case 'yearly':
-      return _sub.amount / 12;
+      return sub.amount / 12;
+  }
+}
+
+export function toYearlyCost(sub: { amount: number; cycle: BillingCycle }): number {
+  if (sub.amount === 0) return 0;
+
+  switch (sub.cycle) {
+    case 'weekly':
+      return sub.amount * 52;
+    case 'monthly':
+      return sub.amount * 12;
+    case 'yearly':
+      return sub.amount;
   }
 }
