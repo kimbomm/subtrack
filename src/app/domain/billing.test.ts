@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, test } from 'vitest';
 import { toMonthlyCost, toYearlyCost } from './billing';
 
 describe('toMonthlyCost', () => {
@@ -39,4 +39,15 @@ describe('toYearlyCost', () => {
   it('0원은 0을 반환한다', () => {
     expect(toYearlyCost({ amount: 0, cycle: 'weekly' })).toBe(0);
   });
+});
+
+describe('연 합계와 월 환산의 관계', () => {
+  test.each(['weekly', 'monthly', 'yearly'] as const)(
+    '%s 주기: 연 합계 ≈ 월 환산 × 12',
+    (cycle) => {
+      const sub = { amount: 5000, cycle };
+
+      expect(toYearlyCost(sub)).toBeCloseTo(toMonthlyCost(sub) * 12, 6);
+    },
+  );
 });
