@@ -1,7 +1,8 @@
 import type { BillingCycle } from './types';
+import { InvalidAmountError } from './errors';
 
 export function toMonthlyCost(sub: { amount: number; cycle: BillingCycle }): number {
-  if (sub.amount === 0) return 0;
+  assertValidAmount(sub.amount);
 
   switch (sub.cycle) {
     case 'weekly':
@@ -14,7 +15,7 @@ export function toMonthlyCost(sub: { amount: number; cycle: BillingCycle }): num
 }
 
 export function toYearlyCost(sub: { amount: number; cycle: BillingCycle }): number {
-  if (sub.amount === 0) return 0;
+  assertValidAmount(sub.amount);
 
   switch (sub.cycle) {
     case 'weekly':
@@ -23,5 +24,15 @@ export function toYearlyCost(sub: { amount: number; cycle: BillingCycle }): numb
       return sub.amount * 12;
     case 'yearly':
       return sub.amount;
+  }
+}
+
+export function roundWon(value: number): number {
+  return Math.round(value);
+}
+
+export function assertValidAmount(amount: number): void {
+  if (!Number.isFinite(amount) || amount < 0) {
+    throw new InvalidAmountError(amount);
   }
 }
