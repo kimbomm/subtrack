@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
+import { BillingCycle } from './types';
 
 const dateFormat = 'YYYY-MM-DD';
-export function nextBillingDate(startDate: string, today: string): string {
+export function nextBillingDate(startDate: string, cycle: BillingCycle, today: string): string {
   // 오늘이 시작일 이전이면 시작일을 보내준다.
   if (dayjs(today).isBefore(dayjs(startDate))) {
     return dayjs(startDate).format(dateFormat);

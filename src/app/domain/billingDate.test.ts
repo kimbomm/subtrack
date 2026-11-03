@@ -3,62 +3,62 @@ import { nextBillingDate } from './billingDate';
 
 describe('nextBillingDate', () => {
   it('이번 달 결제일이 지났다.', () => {
-    expect(nextBillingDate('2026-01-05', '2026-01-10')).toBe('2026-02-05');
+    expect(nextBillingDate('2026-01-05', 'monthly', '2026-01-10')).toBe('2026-02-05');
   });
 
   it('오늘이 결제일 당일이다', () => {
-    expect(nextBillingDate('2026-01-05', '2026-01-05')).toBe('2026-02-05');
+    expect(nextBillingDate('2026-01-05', 'monthly', '2026-01-05')).toBe('2026-02-05');
   });
 
   it('아직 가입일이 안 왔다', () => {
-    expect(nextBillingDate('2026-01-05', '2026-01-02')).toBe('2026-01-05');
+    expect(nextBillingDate('2026-01-05', 'monthly', '2026-01-02')).toBe('2026-01-05');
   });
 
   it('가입하고 몇 달이 지났다', () => {
-    expect(nextBillingDate('2026-01-05', '2026-05-20')).toBe('2026-06-05');
+    expect(nextBillingDate('2026-01-05', 'monthly', '2026-05-20')).toBe('2026-06-05');
   });
 
   it('다음 결제일이 다음 해로 넘어간다', () => {
-    expect(nextBillingDate('2026-01-05', '2026-12-20')).toBe('2027-01-05');
+    expect(nextBillingDate('2026-01-05', 'monthly', '2026-12-20')).toBe('2027-01-05');
   });
 
   it('몇 달 지나고 결제일이 하루 앞으로 다가왔다', () => {
-    expect(nextBillingDate('2026-01-05', '2026-11-04')).toBe('2026-11-05');
+    expect(nextBillingDate('2026-01-05', 'monthly', '2026-11-04')).toBe('2026-11-05');
   });
 
   it('몇 달 지나고 결제일이 도래했다', () => {
-    expect(nextBillingDate('2026-01-05', '2026-11-05')).toBe('2026-12-05');
+    expect(nextBillingDate('2026-01-05', 'monthly', '2026-11-05')).toBe('2026-12-05');
   });
 
   it('결제일이 다른 달의 미래이면 결제일을 돌려준다', () => {
-    expect(nextBillingDate('2026-03-05', '2026-01-02')).toBe('2026-03-05');
+    expect(nextBillingDate('2026-03-05', 'monthly', '2026-01-02')).toBe('2026-03-05');
   });
 
   it('31일 가입, 평년 2월', () => {
-    expect(nextBillingDate('2027-01-31', '2027-02-10')).toBe('2027-02-28');
+    expect(nextBillingDate('2027-01-31', 'monthly', '2027-02-10')).toBe('2027-02-28');
   });
 
   it('31일 가입, 윤년 2월', () => {
-    expect(nextBillingDate('2028-01-31', '2028-02-10')).toBe('2028-02-29');
+    expect(nextBillingDate('2028-01-31', 'monthly', '2028-02-10')).toBe('2028-02-29');
   });
 
   it('2월 결제가 끝난 뒤 → 3월은 다시 31일 (밀림 방지)', () => {
-    expect(nextBillingDate('2027-01-31', '2027-02-28')).toBe('2027-03-31');
+    expect(nextBillingDate('2027-01-31', 'monthly', '2027-02-28')).toBe('2027-03-31');
   });
 
   it('31일 가입, 30일까지 있는 달', () => {
-    expect(nextBillingDate('2027-01-31', '2027-04-10')).toBe('2027-04-30');
+    expect(nextBillingDate('2027-01-31', 'monthly', '2027-04-10')).toBe('2027-04-30');
   });
 
   it('말일이 결제일 당일이다 (예: 2월 결제일 당일)', () => {
-    expect(nextBillingDate('2028-01-31', '2028-02-29')).toBe('2028-03-31');
+    expect(nextBillingDate('2028-01-31', 'monthly', '2028-02-29')).toBe('2028-03-31');
   });
 
   it('31일이 아닌 날 가입인데 2월에 보정됨 (예: 30일 가입)', () => {
-    expect(nextBillingDate('2026-11-30', '2027-01-30')).toBe('2027-02-28');
+    expect(nextBillingDate('2026-11-30', 'monthly', '2027-01-30')).toBe('2027-02-28');
   });
 
   it('이번달이 결제일, 다음달이 짧은 경우', () => {
-    expect(nextBillingDate('2026-11-30', '2027-03-05')).toBe('2027-03-30');
+    expect(nextBillingDate('2026-11-30', 'monthly', '2027-03-05')).toBe('2027-03-30');
   });
 });
