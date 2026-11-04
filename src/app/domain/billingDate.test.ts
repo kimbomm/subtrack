@@ -61,4 +61,45 @@ describe('nextBillingDate', () => {
   it('이번달이 결제일, 다음달이 짧은 경우', () => {
     expect(nextBillingDate('2026-11-30', 'monthly', '2027-03-05')).toBe('2027-03-30');
   });
+
+  // cycle 추가 테스트
+  it('yearly) 가입 후 몇 달 지남', () => {
+    expect(nextBillingDate('2026-11-03', 'yearly', '2027-01-01')).toBe('2027-11-03');
+  });
+
+  it('yearly) 오늘이 결제일 당일', () => {
+    expect(nextBillingDate('2026-11-03', 'yearly', '2027-11-03')).toBe('2028-11-03');
+  });
+
+  it('yearly) 2/29 가입, 다음 해(평년)', () => {
+    expect(nextBillingDate('2028-02-29', 'yearly', '2029-02-28')).toBe('2030-02-28');
+  });
+
+  it('yearly) 버그재현 2/29 가입,(윤년)', () => {
+    expect(nextBillingDate('2028-02-29', 'yearly', '2031-03-01')).toBe('2032-02-29');
+  });
+
+  it('yearly) 버그재현2 2/28 가입, 다음 해(윤년)', () => {
+    expect(nextBillingDate('2027-02-28', 'yearly', '2028-01-10')).toBe('2028-02-28');
+  });
+
+  it('yearly) 2/29 가입, 4년 뒤(윤년)에는 다시 2/29', () => {
+    expect(nextBillingDate('2028-02-29', 'yearly', '2032-02-01')).toBe('2032-02-29');
+  });
+
+  it.todo('weekly) 가입 후 며칠 지남 (첫 결제 전)', () => {
+    expect(nextBillingDate('2026-11-03', 'weekly', '2026-11-05')).toBe('2026-11-10');
+  });
+
+  it.todo('weekly) 오늘이 결제일 당일', () => {
+    expect(nextBillingDate('2026-11-03', 'weekly', '2026-11-10')).toBe('2026-11-07');
+  });
+
+  it.todo('weekly) 결제일이 월을 넘어감', () => {
+    expect(nextBillingDate('2026-10-29', 'weekly', '2026-11-01')).toBe('2026-11-05');
+  });
+
+  it.todo('weekly) 결제일이 해를 넘어감', () => {
+    expect(nextBillingDate('2026-12-29', 'weekly', '2027-01-01')).toBe('2027-01-05');
+  });
 });
