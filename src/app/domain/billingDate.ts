@@ -12,7 +12,7 @@ export function nextBillingDate(startDate: string, cycle: BillingCycle, today: s
       // 가입 후 몇 달 지남
       // 오늘이 결제일 당일
       return getCalcYearlyBillingDate(startDate, today);
-    default:
+    case 'monthly':
       const BL_DD = getDate(startDate);
       const billingDate = getCalcBillingDate(today, BL_DD);
 
@@ -25,6 +25,9 @@ export function nextBillingDate(startDate: string, cycle: BillingCycle, today: s
         BL_DD,
       );
       return nextMonthBillingDate;
+
+    case 'weekly':
+      return getCalcWeeklyBillingDate(startDate, today);
   }
 }
 function getYear(value: string): number {
@@ -74,4 +77,11 @@ function getCalcYearlyBillingDate(startDate: string, today: string): string {
     .set('year', TD_YY + 1)
     .format(dateFormat);
   return getCalcBillingDate(TMP_NEXTDATE, ST_DD);
+}
+
+function getCalcWeeklyBillingDate(startDate: string, today: string): string {
+  const diffDate = dayjs(today).diff(dayjs(startDate), 'd');
+  const remainder = diffDate % 7;
+
+  return dayjs(today).subtract(remainder, 'day').add(7, 'day').format(dateFormat);
 }

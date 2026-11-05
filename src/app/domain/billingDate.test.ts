@@ -87,19 +87,23 @@ describe('nextBillingDate', () => {
     expect(nextBillingDate('2028-02-29', 'yearly', '2032-02-01')).toBe('2032-02-29');
   });
 
-  it.todo('weekly) 가입 후 며칠 지남 (첫 결제 전)', () => {
+  it('weekly) 가입 후 며칠 지남 (첫 결제 전)', () => {
     expect(nextBillingDate('2026-11-03', 'weekly', '2026-11-05')).toBe('2026-11-10');
   });
 
-  it.todo('weekly) 오늘이 결제일 당일', () => {
-    expect(nextBillingDate('2026-11-03', 'weekly', '2026-11-10')).toBe('2026-11-07');
+  it('weekly) 오늘이 결제일 당일', () => {
+    expect(nextBillingDate('2026-11-03', 'weekly', '2026-11-10')).toBe('2026-11-17');
   });
 
-  it.todo('weekly) 결제일이 월을 넘어감', () => {
+  it('weekly) 결제일이 월을 넘어감', () => {
     expect(nextBillingDate('2026-10-29', 'weekly', '2026-11-01')).toBe('2026-11-05');
   });
 
-  it.todo('weekly) 결제일이 해를 넘어감', () => {
+  it('weekly) 결제일이 해를 넘어감', () => {
     expect(nextBillingDate('2026-12-29', 'weekly', '2027-01-01')).toBe('2027-01-05');
+  });
+
+  it('weekly) 가입 후 5주 이상 지남', () => {
+    expect(nextBillingDate('2026-12-29', 'weekly', '2027-02-04')).toBe('2027-02-09');
   });
 });
