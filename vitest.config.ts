@@ -11,5 +11,6 @@ export default defineConfig({
       include: ['src/app/domain/**/*.ts'],
       thresholds: { lines: 90, functions: 90, branches: 90, statements: 90 },
     },
+    env: { TZ: 'Asia/Seoul' },
   },
 });
